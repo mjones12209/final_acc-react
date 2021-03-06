@@ -4,6 +4,7 @@ import {Button} from 'react-bootstrap';
 import {apiKey} from '../../key';
 import moment from 'moment';
 import MoviesDisplay from '../MoviesDisplay/MoviesDisplay';
+import PropTypes from 'prop-types';
 
 const NewMovies = (props) => {
     const newMovies =`https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&sort_by=release_date.desc&primary_release_year=${moment().format('YYYY')}&include_adult=false&include_video=false&page=1`
@@ -38,6 +39,10 @@ const NewMovies = (props) => {
         </Button>
       </>
     );
+}
+
+NewMovies.propTypes = {
+  stateRef: PropTypes.func
 }
 
 export default NewMovies

@@ -3,6 +3,7 @@ import styles from "./Toolbar.module.css";
 import { Button, InputGroup, FormControl, Container, Row, Col } from "react-bootstrap";
 import NewMovies from '../NewMovies/NewMovies';
 import Genre from '../Genre/Genre';
+import PropTypes from 'prop-types';
 
 const Toolbar = (props) => {
 
@@ -32,6 +33,10 @@ const Toolbar = (props) => {
         </Container>
       </>
     );
+}
+
+Toolbar.propTypes = {
+  changeState: PropTypes.func
 }
 
 export default Toolbar;

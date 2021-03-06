@@ -3,6 +3,7 @@ import { Dropdown } from 'react-bootstrap';
 import axios from 'axios';
 import {apiKey} from '../../key';
 import MoviesDisplay from '../MoviesDisplay/MoviesDisplay';
+import PropTypes from 'prop-types';
 
 const Genre = (props) => {
     const [genreDropdowns, setGenreDropdowns] = useState(null)
@@ -46,6 +47,7 @@ const Genre = (props) => {
                     picture={movie.backdrop_path}
                     title={movie.original_title}
                     desc={movie.overview}
+                    key={movie.id}
                   />
               );
             })
@@ -75,6 +77,10 @@ const Genre = (props) => {
         </Dropdown>
       </>
     );
+}
+
+Genre.propTypes = {
+  stateRef: PropTypes.func
 }
 
 export default Genre;
