@@ -9,7 +9,9 @@ const MoviesDisplay = props => {
 
     useEffect(
         ()=> {
-           setDesc(!text ? props.desc.substring(0, 250) : props.desc)
+           setDesc(
+            props.desc !== "" ? (!text ? props.desc.substring(0, 250) : props.desc) : "Sorry there was no description"
+          )
         }
     , [text, props.desc]);
 
@@ -49,4 +51,4 @@ MoviesDisplay.propTypes = {
     
 }
 
-export default MoviesDisplay
+export default MoviesDisplay;

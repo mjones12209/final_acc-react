@@ -20,7 +20,7 @@ const Genre = (props) => {
 
                 setGenreDropdowns(
                   asyncResponse.data.genres.map((genre) => {
-                    return <Dropdown.Item key={genre.id} onClick={()=> axiosCall(genre.id)}>{genre.name}</Dropdown.Item>;
+                    return <Dropdown.Item key={genre.id} onClick={()=> axiosCall(genre.id, genre.name)}>{genre.name}</Dropdown.Item>;
                   })
                 );
           
@@ -32,14 +32,14 @@ const Genre = (props) => {
       }
       getGenres();
 
-      const axiosCall = async (genreId) => {
+      const axiosCall = async (genreId, genreName) => {
         try {
           const options = {
             method: "GET",
             url: `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&with_genres=${genreId}&include_adult=false&include_video=false&page=1`,
           };
           const asyncResponse = await axios(options);
-
+          props.setGenre(genreName);
           props.setMovies(
             asyncResponse.data.results.map((movie) => {
               return (
