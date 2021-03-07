@@ -40,7 +40,7 @@ const Genre = (props) => {
           };
           const asyncResponse = await axios(options);
 
-          props.stateRef(
+          props.setMovies(
             asyncResponse.data.results.map((movie) => {
               return (
                   <MoviesDisplay
@@ -51,7 +51,6 @@ const Genre = (props) => {
                   />
               );
             })
-            // console.log(asyncResponse.data.results)
           );
 
         } catch (err) {

@@ -12,10 +12,13 @@ const Toolbar = (props) => {
         <Container className={styles["container"]}>
           <Row className={styles["centeredButtons"]}>
             <Col sm>
-             <NewMovies stateRef={props.changeState}/>
+              <NewMovies
+                setGenre={props.setGenre}
+                setMovies={props.setMovies}
+              />
             </Col>
             <Col sm>
-              <Genre stateRef={props.changeState}/>
+              <Genre setGenre={props.setGenre} setMovies={props.setMovies} />
             </Col>
             <Col sm>
               <InputGroup className="mb-3">
@@ -31,6 +34,15 @@ const Toolbar = (props) => {
             </Col>
           </Row>
         </Container>
+        <Container fluid="md" className={styles["title"]}>
+          <Row>
+            <Col>
+              <h1>
+                <strong>{props.genre}</strong>
+              </h1>
+            </Col>
+          </Row>
+        </Container>
       </>
     );
 }
@@ -40,4 +52,3 @@ Toolbar.propTypes = {
 }
 
 export default Toolbar;
-

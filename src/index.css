@@ -7,6 +7,20 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+
+.card {
+  box-shadow: 0px 4px 10px 6px gray;
+}
+
+.card-title {
+  text-align: center;
+  font-weight: bold;
+}
+
+.card-text {
+  text-align: center;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;

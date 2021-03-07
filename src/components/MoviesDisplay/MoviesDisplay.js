@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 const MoviesDisplay = props => {
     const [text, showText] = useState(false);
     const [desc, setDesc] = useState(null);
-    const onClick = () => showText(!text);
+    const showFullDesc = () => showText(!text);
 
     useEffect(
         ()=> {
@@ -16,13 +16,25 @@ const MoviesDisplay = props => {
     return (
       <>
         <Card style={{ width: "18rem" }}>
-          <Card.Img src={"https://image.tmdb.org/t/p/w500/" + props.picture} />
+          {props.picture === null ? (
+            <Card.Img src={"https://www.hallaminternet.com/assets/show.jpg"} />
+          ) : (
+            <Card.Img
+              src={"https://image.tmdb.org/t/p/w500/" + props.picture}
+            />
+          )}
           <Card.Body>
             <Card.Title>{props.title}</Card.Title>
             <Card.Text>
-                {/* {showFullDesc ? text : text.substring(0,250)} */}
-                {desc}
-                {props.desc.length > 250  ? <Button onClick={onClick}> Read {!text ? 'More' : 'Less'}</Button> : null}
+              {/* {showFullDesc ? text : text.substring(0,250)} */}
+              {desc}
+              <br />
+              {props.desc.length > 250 ? (
+                <Button onClick={showFullDesc}>
+                  {" "}
+                  Read {!text ? "More" : "Less"}
+                </Button>
+              ) : null}
             </Card.Text>
           </Card.Body>
         </Card>
@@ -34,7 +46,6 @@ MoviesDisplay.propTypes = {
     desc: PropTypes.string,
     title: PropTypes.string,
     picture: PropTypes.string,
-    key: PropTypes.string
     
 }
 
