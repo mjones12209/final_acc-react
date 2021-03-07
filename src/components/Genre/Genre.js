@@ -36,7 +36,7 @@ const Genre = (props) => {
       };
       getGenres();
     }
-  , []);
+  );
   
 
   const axiosCall = async (genreId, genreName) => {
