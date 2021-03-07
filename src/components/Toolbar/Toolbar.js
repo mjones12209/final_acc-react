@@ -1,8 +1,9 @@
 import React from "react";
 import styles from "./Toolbar.module.css";
-import { Button, InputGroup, FormControl, Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import NewMovies from '../NewMovies/NewMovies';
 import Genre from '../Genre/Genre';
+import Search from '../Search/Search';
 import PropTypes from 'prop-types';
 
 const Toolbar = (props) => {
@@ -18,19 +19,16 @@ const Toolbar = (props) => {
               />
             </Col>
             <Col sm>
-              <Genre setGenre={props.setGenre} setMovies={props.setMovies} />
+              <Genre 
+                setGenre={props.setGenre} 
+                setMovies={props.setMovies} 
+                />
             </Col>
             <Col sm>
-              <InputGroup className="mb-3">
-                <FormControl
-                  placeholder="Enter Search Query"
-                  aria-label="Enter Search Query"
-                  aria-describedby="basic-addon2"
+              <Search 
+                setGenre={props.setGenre} 
+                setMovies={props.setMovies} 
                 />
-                <InputGroup.Append>
-                  <Button>Search</Button>
-                </InputGroup.Append>
-              </InputGroup>
             </Col>
           </Row>
         </Container>
