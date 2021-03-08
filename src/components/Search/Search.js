@@ -1,4 +1,4 @@
-// import React, { useState } from 'react';
+import React from 'react';
 import {useForm} from 'react-hook-form';
 import PropTypes from 'prop-types';
 import {FormControl, InputGroup, Button} from 'react-bootstrap';
@@ -10,7 +10,7 @@ import DomPurify from 'dompurify';
 
 const Search = (props) => {
 
-    const {register, handleSubmit} = useForm({
+  const {register, handleSubmit} = useForm({
         mode: 'onSubmit',
         reValidateMode: 'onChange',
         defaultValues: {},
@@ -30,33 +30,35 @@ const Search = (props) => {
     //   genre: props.genres
     // })
 
-    const axiosCall = async (data) => {
-      const queryReadyInput = DomPurify.sanitize(
-        data.Search.replace(/ /g, "+")
+
+
+  const axiosCall = async (data) => {
+    const queryReadyInput = DomPurify.sanitize(
+      data.Search.replace(/ /g, "+")
+    );
+    try {
+      const options = {
+        method: "GET",
+        url: `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${queryReadyInput}`,
+      };
+      const asyncResponse = await axios(options);
+      props.setGenre("Search");
+      props.setMovies(
+        asyncResponse.data.results.map((movie) => {
+          return (
+            <MoviesDisplay
+              picture={movie.backdrop_path}
+              title={movie.original_title}
+              desc={movie.overview}
+              key={movie.id}
+            />
+          );
+        })
       );
-      try {
-        const options = {
-          method: "GET",
-          url: `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${queryReadyInput}`,
-        };
-        const asyncResponse = await axios(options);
-        props.setGenre("Search");
-        props.setMovies(
-          asyncResponse.data.results.map((movie) => {
-            return (
-              <MoviesDisplay
-                picture={movie.backdrop_path}
-                title={movie.original_title}
-                desc={movie.overview}
-                key={movie.id}
-              />
-            );
-          })
-        );
-      } catch (err) {
-        console.error(err);
-      }
+    } catch (err) {
+      console.error(err);
     }
+  }
     
     // const handleShow = () => {
     //   setAdvanced(

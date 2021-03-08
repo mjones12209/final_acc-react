@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { Dropdown } from 'react-bootstrap';
 import axios from 'axios';
 import {apiKey} from '../../key';
@@ -35,20 +35,37 @@ const Genre = (props) => {
     }
   };
 
+  const genres = [];
+  (async function () {
+    try {
+      const options = {
+        method: "GET",
+        url: `https://api.themoviedb.org/3/genre/movie/list?api_key=${apiKey}&language=en-US`,
+      };
+      const asyncResponse = await axios(options);
+
+        asyncResponse.data.genres.map((genre) => {
+        return genres.push(
+          <Dropdown.Item
+            key={genre.id}
+            onClick={() => axiosCall(genre.id, genre.name)}
+          >
+            {genre.name}
+          </Dropdown.Item>
+        );                      
+      })
+    } catch (err) {
+      console.error(err);
+    }
+    })();  
+  
     return (
       <>
         <Dropdown>
           <Dropdown.Toggle>Genre Top 20</Dropdown.Toggle>
-          <Dropdown.Menu>{props.genres.map((genre)=> {
-            return (
-              <Dropdown.Item
-                key={genre.genreId}
-                onClick={() => axiosCall(genre.genreId, genre.genreName)}
-              >
-                {genre.genreName}
-              </Dropdown.Item>
-            );
-          })}</Dropdown.Menu>
+          <Dropdown.Menu>
+            {genres}
+         </Dropdown.Menu>
         </Dropdown>
       </>
     );
