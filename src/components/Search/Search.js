@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+// import React, { useState } from 'react';
 import {useForm} from 'react-hook-form';
 import PropTypes from 'prop-types';
 import {FormControl, InputGroup, Button} from 'react-bootstrap';
@@ -6,6 +6,7 @@ import {apiKey} from '../../key';
 import MoviesDisplay from '../MoviesDisplay/MoviesDisplay';
 import axios from 'axios'; 
 import DomPurify from 'dompurify';
+// import AdvancedModal from '../AdvancedModal/AdvancedModal';
 
 const Search = (props) => {
 
@@ -20,16 +21,14 @@ const Search = (props) => {
         shouldUnregister: true
     });
 
-    const [ advanced, setAdvanced ] = useState({
-      showAdvancedSettings: false,
-      category: {
-        videos: false,
-        images: false
-      },
-      genre: {
-        
-      }
-    })
+    // const [ advanced, setAdvanced ] = useState({
+    //   showAdvancedSettings: false,
+    //   category: {
+    //     videos: false,
+    //     images: false
+    //   },
+    //   genre: props.genres
+    // })
 
     const axiosCall = async (data) => {
       const queryReadyInput = DomPurify.sanitize(
@@ -58,6 +57,18 @@ const Search = (props) => {
         console.error(err);
       }
     }
+    
+    // const handleShow = () => {
+    //   setAdvanced(
+    //     {showAdvancedSettings: true}
+    //   );
+    // }
+
+    // const handleClose = () => {
+    //   setAdvanced(
+    //     {showAdvancedSettings: false}
+    //   );
+    // }
 
     return (
       <>
@@ -75,8 +86,12 @@ const Search = (props) => {
               <Button type="submit">
                   Search
               </Button>
+              {/* <Button variant="outline-secondary" onClick={()=>handleShow()}>
+                Advanced
+              </Button> */}
             </InputGroup.Append>
           </InputGroup>
+          {/* <AdvancedModal handleClose={handleClose} show={advanced.showAdvancedSettings}/> */}
         </form>
       </>
     );

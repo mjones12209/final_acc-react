@@ -6,31 +6,6 @@ import MoviesDisplay from '../MoviesDisplay/MoviesDisplay';
 import PropTypes from 'prop-types';
 
 const Genre = (props) => {
-  let dropdownItems = [];
-
-  (async function getGenres() {
-      try {
-        const options = {
-          method: "GET",
-          url: `https://api.themoviedb.org/3/genre/movie/list?api_key=${apiKey}&language=en-US`,
-        };
-        const asyncResponse = await axios(options);
-
-        
-        asyncResponse.data.genres.map((genre) => {
-          return dropdownItems.push(
-            <Dropdown.Item
-              key={genre.id}
-              onClick={() => axiosCall(genre.id, genre.name)}
-            >
-              {genre.name}
-            </Dropdown.Item>
-          );
-        })
-      } catch (err) {
-        console.error(err);
-      }
-    }());  
 
   const axiosCall = async (genreId, genreName) => {
     try {
@@ -64,14 +39,26 @@ const Genre = (props) => {
       <>
         <Dropdown>
           <Dropdown.Toggle>Genre Top 20</Dropdown.Toggle>
-          <Dropdown.Menu>{dropdownItems}</Dropdown.Menu>
+          <Dropdown.Menu>{props.genres.map((genre)=> {
+            return (
+              <Dropdown.Item
+                key={genre.genreId}
+                onClick={() => axiosCall(genre.genreId, genre.genreName)}
+              >
+                {genre.genreName}
+              </Dropdown.Item>
+            );
+          })}</Dropdown.Menu>
         </Dropdown>
       </>
     );
 }
 
 Genre.propTypes = {
-  stateRef: PropTypes.func
+  stateRef: PropTypes.func,
+  setGenre: PropTypes.func,
+  setMovies: PropTypes.func,
+  genres: PropTypes.array
 }
 
 export default Genre;
