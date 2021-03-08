@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import { Dropdown } from 'react-bootstrap';
 import axios from 'axios';
 import {apiKey} from '../../key';
@@ -6,38 +6,31 @@ import MoviesDisplay from '../MoviesDisplay/MoviesDisplay';
 import PropTypes from 'prop-types';
 
 const Genre = (props) => {
-  const [genreDropdowns, setGenreDropdowns] = useState(null)
+  let dropdownItems = [];
 
-  useEffect(
-    () => {
-      const getGenres = async () => {
-        try {
-          const options = {
-            method: "GET",
-            url: `https://api.themoviedb.org/3/genre/movie/list?api_key=${apiKey}&language=en-US`,
-          };
-          const asyncResponse = await axios(options);
+  (async function getGenres() {
+      try {
+        const options = {
+          method: "GET",
+          url: `https://api.themoviedb.org/3/genre/movie/list?api_key=${apiKey}&language=en-US`,
+        };
+        const asyncResponse = await axios(options);
 
-          setGenreDropdowns(
-            asyncResponse.data.genres.map((genre) => {
-              return (
-                <Dropdown.Item
-                  key={genre.id}
-                  onClick={() => axiosCall(genre.id, genre.name)}
-                >
-                  {genre.name}
-                </Dropdown.Item>
-              );
-            })
+        
+        asyncResponse.data.genres.map((genre) => {
+          return dropdownItems.push(
+            <Dropdown.Item
+              key={genre.id}
+              onClick={() => axiosCall(genre.id, genre.name)}
+            >
+              {genre.name}
+            </Dropdown.Item>
           );
-        } catch (err) {
-          console.error(err);
-        }
-      };
-      getGenres();
-    }
-  );
-  
+        })
+      } catch (err) {
+        console.error(err);
+      }
+    }());  
 
   const axiosCall = async (genreId, genreName) => {
     try {
@@ -71,11 +64,7 @@ const Genre = (props) => {
       <>
         <Dropdown>
           <Dropdown.Toggle>Genre Top 20</Dropdown.Toggle>
-          <Dropdown.Menu>
-            {
-              genreDropdowns
-            }
-          </Dropdown.Menu>
+          <Dropdown.Menu>{dropdownItems}</Dropdown.Menu>
         </Dropdown>
       </>
     );

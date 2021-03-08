@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {useForm} from 'react-hook-form';
 import PropTypes from 'prop-types';
 import {FormControl, InputGroup, Button} from 'react-bootstrap';
@@ -19,6 +19,17 @@ const Search = (props) => {
         shouldFocusError: true,
         shouldUnregister: true
     });
+
+    const [ advanced, setAdvanced ] = useState({
+      showAdvancedSettings: false,
+      category: {
+        videos: false,
+        images: false
+      },
+      genre: {
+        
+      }
+    })
 
     const axiosCall = async (data) => {
       const queryReadyInput = DomPurify.sanitize(
