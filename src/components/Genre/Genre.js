@@ -7,6 +7,8 @@ import PropTypes from 'prop-types';
 
 const Genre = (props) => {
 
+  const genres = [];
+
   const axiosCall = async (genreId, genreName) => {
     try {
       const options = {
@@ -35,29 +37,30 @@ const Genre = (props) => {
     }
   };
 
-  const genres = [];
-  (async function () {
-    try {
-      const options = {
-        method: "GET",
-        url: `https://api.themoviedb.org/3/genre/movie/list?api_key=${apiKey}&language=en-US`,
-      };
-      const asyncResponse = await axios(options);
+(async function () {
+  try {
+    const options = {
+      method: "GET",
+      url: `https://api.themoviedb.org/3/genre/movie/list?api_key=${apiKey}&language=en-US`,
+    };
+    const asyncResponse = await axios(options);
 
-        asyncResponse.data.genres.map((genre) => {
-        return genres.push(
-          <Dropdown.Item
-            key={genre.id}
-            onClick={() => axiosCall(genre.id, genre.name)}
-          >
-            {genre.name}
-          </Dropdown.Item>
-        );                      
-      })
-    } catch (err) {
-      console.error(err);
-    }
-    })();  
+    asyncResponse.data.genres.map((genre) => {
+      return genres.push(
+        <Dropdown.Item
+          key={genre.id}
+          onClick={() => axiosCall(genre.id, genre.name)}
+        >
+          {genre.name}
+        </Dropdown.Item>
+      );
+    });
+  } catch (err) {
+    console.error(err);
+  }
+})();  
+
+ 
   
     return (
       <>

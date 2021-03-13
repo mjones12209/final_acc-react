@@ -32,33 +32,34 @@ const Search = (props) => {
 
 
 
-  const axiosCall = async (data) => {
-    const queryReadyInput = DomPurify.sanitize(
-      data.Search.replace(/ /g, "+")
-    );
-    try {
-      const options = {
-        method: "GET",
-        url: `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${queryReadyInput}`,
-      };
-      const asyncResponse = await axios(options);
-      props.setGenre("Search");
-      props.setMovies(
-        asyncResponse.data.results.map((movie) => {
-          return (
-            <MoviesDisplay
-              picture={movie.backdrop_path}
-              title={movie.original_title}
-              desc={movie.overview}
-              key={movie.id}
-            />
-          );
-        })
+  
+    const axiosCall = async (data) => {
+      const queryReadyInput = DomPurify.sanitize(
+        data.Search.replace(/ /g, "+")
       );
-    } catch (err) {
-      console.error(err);
-    }
-  }
+      try {
+        const options = {
+          method: "GET",
+          url: `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${queryReadyInput}`,
+        };
+        const asyncResponse = await axios(options);
+        props.setGenre("Search");
+        props.setMovies(
+          asyncResponse.data.results.map((movie) => {
+            return (
+              <MoviesDisplay
+                picture={movie.backdrop_path}
+                title={movie.original_title}
+                desc={movie.overview}
+                key={movie.id}
+              />
+            );
+          })
+        );
+      } catch (err) {
+        console.error(err);
+      }
+    };
     
     // const handleShow = () => {
     //   setAdvanced(
