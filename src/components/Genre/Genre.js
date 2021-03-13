@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { Dropdown } from 'react-bootstrap';
 import axios from 'axios';
 import {apiKey} from '../../key';
@@ -9,33 +9,34 @@ const Genre = (props) => {
 
   const genres = [];
 
-  const axiosCall = async (genreId, genreName) => {
-    try {
-      const options = {
-        method: "GET",
-        url: `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&with_genres=${genreId}&include_adult=false&include_video=false&page=1`,
-      };
-      const asyncResponse = await axios(options);
-      props.setGenre(genreName);
-      props.setMovies(
-        asyncResponse.data.results.map((movie) => {
-          return (
+  useEffect(()=> {
+    const axiosCall = async (genreId, genreName) => {
+      try {
+        const options = {
+          method: "GET",
+          url: `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&with_genres=${genreId}&include_adult=false&include_video=false&page=1`,
+        };
+        const asyncResponse = await axios(options);
+        props.setGenre(genreName);
+        props.setMovies(
+          asyncResponse.data.results.map((movie) => {
+            return (
               <MoviesDisplay
                 picture={movie.backdrop_path}
                 title={movie.original_title}
                 desc={movie.overview}
                 key={movie.id}
               />
-          );
-        })
-      );
+            );
+          })
+        );
+      } catch (err) {
+        console.error(err);
+      }
+    };
+  });
 
-    } catch (err) {
-
-      console.error(err);
-
-    }
-  };
+  
 
 (async function () {
   try {
