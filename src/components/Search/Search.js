@@ -3,7 +3,6 @@ import {useForm} from 'react-hook-form';
 import PropTypes from 'prop-types';
 import {FormControl, InputGroup, Button} from 'react-bootstrap';
 import {apiKey} from '../../key';
-import MoviesDisplay from '../MoviesDisplay/MoviesDisplay';
 import axios from 'axios'; 
 import DomPurify from 'dompurify';
 // import AdvancedModal from '../AdvancedModal/AdvancedModal';
@@ -45,16 +44,7 @@ const Search = (props) => {
         const asyncResponse = await axios(options);
         props.setGenre("Search");
         props.setMovies(
-          asyncResponse.data.results.map((movie) => {
-            return (
-              <MoviesDisplay
-                picture={movie.backdrop_path}
-                title={movie.original_title}
-                desc={movie.overview}
-                key={movie.id}
-              />
-            );
-          })
+          asyncResponse.data.results
         );
       } catch (err) {
         console.error(err);

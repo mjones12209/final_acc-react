@@ -3,7 +3,6 @@ import axios from 'axios';
 import {Button} from 'react-bootstrap';
 import {apiKey} from '../../key';
 import moment from 'moment';
-import MoviesDisplay from '../MoviesDisplay/MoviesDisplay';
 import PropTypes from 'prop-types';
 
 const NewMovies = (props) => {
@@ -16,19 +15,10 @@ const NewMovies = (props) => {
             url: url
           };
           const asyncResponse = await axios(options);
-          props.setMovies(
-            asyncResponse.data.results.map((movie) => {
-              return (
-                <MoviesDisplay
-                  picture={movie.backdrop_path}
-                  title={movie.original_title}
-                  desc={movie.overview}
-                  key={movie.id}
-                />
-              );
-            })
-          );
           props.setGenre("New Movies");
+          props.setMovies(
+            asyncResponse.data.results
+          );
         } catch (err) {
           console.error(err);
         }

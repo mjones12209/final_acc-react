@@ -2,7 +2,6 @@ import React, {useEffect, useState} from "react";
 import { Dropdown } from 'react-bootstrap';
 import axios from 'axios';
 import {apiKey} from '../../key';
-import MoviesDisplay from '../MoviesDisplay/MoviesDisplay';
 import PropTypes from 'prop-types';
 
 const Genre = (props) => {
@@ -19,16 +18,7 @@ const Genre = (props) => {
         const asyncResponse = await axios(options);
 
         setDropdowns(
-          asyncResponse.data.genres.map((genre) => {
-            return (
-              <Dropdown.Item
-                key={genre.id}
-                onClick={() => axiosCall(genre.id, genre.name)}
-              >
-                {genre.name}
-              </Dropdown.Item>
-            );
-          })
+          asyncResponse.data.genres
         );
 
       } catch (err) {
@@ -46,16 +36,7 @@ const Genre = (props) => {
       const asyncResponse = await axios(options);
       props.setGenre(genreName);
       props.setMovies(
-        asyncResponse.data.results.map((movie) => {
-          return (
-            <MoviesDisplay
-              picture={movie.backdrop_path}
-              title={movie.original_title}
-              desc={movie.overview}
-              key={movie.id}
-            />
-          );
-        })
+        asyncResponse.data.results
       );
     } catch (err) {
       console.error(err);
@@ -67,8 +48,17 @@ const Genre = (props) => {
         <Dropdown>
           <Dropdown.Toggle>Genre Top 20</Dropdown.Toggle>
           <Dropdown.Menu>
-            {dropdowns}
-         </Dropdown.Menu>
+            {dropdowns && dropdowns.map((genre) => {
+              return (
+                <Dropdown.Item
+                  key={genre.id}
+                  onClick={() => axiosCall(genre.id, genre.name)}
+                >
+                  {genre.name}
+                </Dropdown.Item>
+              );
+            })}
+          </Dropdown.Menu>
         </Dropdown>
       </>
     );
