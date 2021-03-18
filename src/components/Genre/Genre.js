@@ -1,31 +1,53 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useReducer} from "react";
 import { Dropdown } from 'react-bootstrap';
 import axios from 'axios';
 import {apiKey} from '../../key';
 import PropTypes from 'prop-types';
 
+const initialState = {
+  loading: true,
+  error: "",
+  genres: {}
+}
+
+const reducer = (state, action) => {
+  switch(action.type) {
+    case "FETCH_SUCCESS":
+      return {
+        loading: false,
+        genres: action.payload,
+        error: ""
+      }
+    case "FETCH_ERROR":
+      return {
+        loading: false,
+        genres: action.payload,
+        error: ""
+      }
+    default:
+      return state;
+  }
+}
+
 const Genre = (props) => {
 
-  const [dropdowns, setDropdowns] = useState();
+  const [dropdowns, setDropdowns] = useReducer(reducer, initialState);
 
-  useEffect(()=> {
-    (async function () {
-      try {
-        const options = {
-          method: "GET",
-          url: `https://api.themoviedb.org/3/genre/movie/list?api_key=${apiKey}&language=en-US`,
-        };
-        const asyncResponse = await axios(options);
-
-        setDropdowns(
-          asyncResponse.data.genres
-        );
-
-      } catch (err) {
-        console.error(err);
-      }
-    })();  
-  });
+  useEffect(() => {
+      axios
+        .get(`https://api.themoviedb.org/3/genre/movie/list?api_key=${apiKey}&language=en-US`)
+        .then((response) => {
+          setDropdowns({
+            type: "FETCH_SUCCESS",
+            payload: response.data
+          })
+        })
+        .catch((error)=>{
+          setDropdowns({
+            type: "FETCH_ERROR"
+          })
+        })
+  }, []);
 
   const axiosCall = async (genreId, genreName) => {
     try {
@@ -48,16 +70,18 @@ const Genre = (props) => {
         <Dropdown>
           <Dropdown.Toggle>Genre Top 20</Dropdown.Toggle>
           <Dropdown.Menu>
-            {dropdowns && dropdowns.map((genre) => {
-              return (
-                <Dropdown.Item
-                  key={genre.id}
-                  onClick={() => axiosCall(genre.id, genre.name)}
-                >
-                  {genre.name}
-                </Dropdown.Item>
-              );
-            })}
+            {dropdowns.loading ? "Loading..." : dropdowns.genres.genres.map(
+              (genre) => {
+                return (
+                  <Dropdown.Item
+                    key={genre.id}
+                    onClick={() => axiosCall(genre.id, genre.name)}
+                  >
+                    {genre.name}
+                  </Dropdown.Item>
+                );
+              }
+            )}
           </Dropdown.Menu>
         </Dropdown>
       </>
