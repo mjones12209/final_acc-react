@@ -21,8 +21,8 @@ const reducer = (state, action) => {
     case "FETCH_ERROR":
       return {
         loading: false,
-        genres: action.payload,
-        error: ""
+        genres: {},
+        error: "Error"
       }
     default:
       return state;
@@ -41,6 +41,7 @@ const Genre = (props) => {
             type: "FETCH_SUCCESS",
             payload: response.data
           })
+          console.log("HELLO")
         })
         .catch((error)=>{
           setDropdowns({
