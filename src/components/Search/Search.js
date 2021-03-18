@@ -1,11 +1,11 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {useForm} from 'react-hook-form';
 import PropTypes from 'prop-types';
 import {FormControl, InputGroup, Button} from 'react-bootstrap';
 import {apiKey} from '../../key';
 import axios from 'axios'; 
 import DomPurify from 'dompurify';
-// import AdvancedModal from '../AdvancedModal/AdvancedModal';
+import AdvancedModal from '../AdvancedModal/AdvancedModal';
 
 const Search = (props) => {
 
@@ -20,17 +20,12 @@ const Search = (props) => {
         shouldUnregister: true
     });
 
-    // const [ advanced, setAdvanced ] = useState({
-    //   showAdvancedSettings: false,
-    //   category: {
-    //     videos: false,
-    //     images: false
-    //   },
-    //   genre: props.genres
-    // })
-
-
-
+    const [ advanced, setAdvanced ] = useState({
+      "Language": '',
+      "Region": '',
+      "Sort By": '',
+      "Release Year": '',
+    })
   
     const axiosCall = async (data) => {
       const queryReadyInput = DomPurify.sanitize(
@@ -51,17 +46,17 @@ const Search = (props) => {
       }
     };
     
-    // const handleShow = () => {
-    //   setAdvanced(
-    //     {showAdvancedSettings: true}
-    //   );
-    // }
+    const handleShow = () => {
+      setAdvanced(
+        {showAdvancedSettings: true}
+      );
+    }
 
-    // const handleClose = () => {
-    //   setAdvanced(
-    //     {showAdvancedSettings: false}
-    //   );
-    // }
+    const handleClose = () => {
+      setAdvanced(
+        {showAdvancedSettings: false}
+      );
+    }
 
     return (
       <>
@@ -79,12 +74,12 @@ const Search = (props) => {
               <Button type="submit">
                   Search
               </Button>
-              {/* <Button variant="outline-secondary" onClick={()=>handleShow()}>
+              <Button variant="outline-secondary" onClick={()=>handleShow()}>
                 Advanced
-              </Button> */}
+              </Button>
             </InputGroup.Append>
           </InputGroup>
-          {/* <AdvancedModal handleClose={handleClose} show={advanced.showAdvancedSettings}/> */}
+          <AdvancedModal handleClose={handleClose} show={advanced.showAdvancedSettings}/>
         </form>
       </>
     );

@@ -5,6 +5,7 @@ import { Modal, Button, Form } from "react-bootstrap";
 import styles from "./AdvancedModal.module.css";
 
 const AdvancedModal = ({ show, handleClose }) => {
+
   const { register, handleSubmit } = useForm({
     mode: "onClick",
     reValidateMode: "onChange",
@@ -16,7 +17,7 @@ const AdvancedModal = ({ show, handleClose }) => {
     shouldUnregister: true,
   });
 
-  const printStuff = (data) => {
+  const handleAdvancedSettings = (data) => {
     console.log(data);
   };
 
@@ -53,10 +54,13 @@ const AdvancedModal = ({ show, handleClose }) => {
           >
             Close
           </Button>
+          <Button variant="secondary">
+            Clear
+          </Button>
           <Button
             variant="primary"
             type="submit"
-            onClick={handleSubmit(printStuff)}
+            onClick={handleSubmit(handleAdvancedSettings)}
           >
             Save Changes
           </Button>
