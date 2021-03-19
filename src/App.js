@@ -16,7 +16,7 @@ function App() {
             <MoviesDisplay
               picture={movie.backdrop_path}
               title={movie.original_title}
-              desc={movie.overview}
+              overview={movie.overview}
               key={movie.id}
             />
           );

@@ -2,7 +2,7 @@ import {Button} from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import UseAxios from '../useAxios/useAxios';
 
-const NewMovies = ({setGenre, setMovies}) => {
+const NewMovies = ({setMovies}) => {
 
     const getData = async ()=> {
       setMovies({type: "New Movies", data: await UseAxios("newMovies", null, null)})
@@ -18,7 +18,7 @@ const NewMovies = ({setGenre, setMovies}) => {
 }
 
 NewMovies.propTypes = {
-  stateRef: PropTypes.func
+  setMovies: PropTypes.func
 }
 
 export default NewMovies;
