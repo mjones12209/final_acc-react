@@ -3,6 +3,7 @@ import { Dropdown } from 'react-bootstrap';
 import axios from 'axios';
 import {apiKey} from '../../key';
 import PropTypes from 'prop-types';
+import UseAxios from '../useAxios/useAxios';
 
 const initialState = {
   loading: true,
@@ -29,7 +30,7 @@ const reducer = (state, action) => {
   }
 }
 
-const Genre = (props) => {
+const Genre = ({setMovies}) => {
 
   const [dropdowns, setDropdowns] = useReducer(reducer, initialState);
 
@@ -41,7 +42,6 @@ const Genre = (props) => {
             type: "FETCH_SUCCESS",
             payload: response.data
           })
-          console.log("HELLO")
         })
         .catch((error)=>{
           setDropdowns({
@@ -50,21 +50,12 @@ const Genre = (props) => {
         })
   }, []);
 
-  const axiosCall = async (genreId, genreName) => {
-    try {
-      const options = {
-        method: "GET",
-        url: `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&with_genres=${genreId}&include_adult=false&include_video=false&page=1`,
-      };
-      const asyncResponse = await axios(options);
-      props.setGenre(genreName);
-      props.setMovies(
-        asyncResponse.data.results
-      );
-    } catch (err) {
-      console.error(err);
-    }
-  };
+    const getData = async (id, name) => {
+      setMovies({
+        type: name,
+        data: await UseAxios("genre", id, null),
+      });
+    };
 
     return (
       <>
@@ -76,7 +67,7 @@ const Genre = (props) => {
                 return (
                   <Dropdown.Item
                     key={genre.id}
-                    onClick={() => axiosCall(genre.id, genre.name)}
+                    onClick={() => getData(genre.id, genre.name)}
                   >
                     {genre.name}
                   </Dropdown.Item>
@@ -90,10 +81,8 @@ const Genre = (props) => {
 }
 
 Genre.propTypes = {
-  stateRef: PropTypes.func,
   setGenre: PropTypes.func,
   setMovies: PropTypes.func,
-  genres: PropTypes.array
 }
 
 export default Genre;

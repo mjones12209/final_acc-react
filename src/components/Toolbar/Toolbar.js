@@ -6,7 +6,7 @@ import Genre from '../Genre/Genre';
 import Search from '../Search/Search';
 import PropTypes from 'prop-types';
 
-const Toolbar = (props) => {
+const Toolbar = ({movies, setMovies}) => {
 
     return (
       <>
@@ -14,20 +14,17 @@ const Toolbar = (props) => {
           <Row className={styles["centeredButtons"]}>
             <Col sm>
               <NewMovies
-                setGenre={props.setGenre}
-                setMovies={props.setMovies}
+                setMovies={setMovies}
               />
             </Col>
             <Col sm>
               <Genre
-                setGenre={props.setGenre}
-                setMovies={props.setMovies}
+                setMovies={setMovies}
               />
             </Col>
             <Col sm>
               <Search
-                setGenre={props.setGenre}
-                setMovies={props.setMovies}
+                setMovies={setMovies}
               />
             </Col>
           </Row>
@@ -36,7 +33,7 @@ const Toolbar = (props) => {
           <Row>
             <Col>
               <h1>
-                <strong>{props.genre}</strong>
+                <strong>{movies.type}</strong>
               </h1>
             </Col>
           </Row>

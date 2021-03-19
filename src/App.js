@@ -5,14 +5,13 @@ import MoviesDisplay from './components/MoviesDisplay/MoviesDisplay';
 
 
 function App() {
-  const [movies, setMovies] = useState(null);
-  const [genre, setGenre] = useState(null);
+  const [movies, setMovies] = useState({type: null, data: null});
 
   return (
     <>
-      <Toolbar genre={genre} setGenre={setGenre} setMovies={setMovies} />
+      <Toolbar movies={movies} setMovies={setMovies} />
       <div className={styles["movieContainer"]}>
-        {movies && movies.map((movie) => {
+        {movies.data && movies.data.data.results.map((movie) => {
           return (
             <MoviesDisplay
               picture={movie.backdrop_path}
@@ -21,7 +20,8 @@ function App() {
               key={movie.id}
             />
           );
-        })}
+        })
+        }
       </div>
     </>
   );

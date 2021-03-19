@@ -2,12 +2,11 @@ import React, {useState} from 'react';
 import {useForm} from 'react-hook-form';
 import PropTypes from 'prop-types';
 import {FormControl, InputGroup, Button} from 'react-bootstrap';
-import {apiKey} from '../../key';
-import axios from 'axios'; 
-import DomPurify from 'dompurify';
 import AdvancedModal from '../AdvancedModal/AdvancedModal';
+import UseAxios from '../useAxios/useAxios';
+import DomPurify from 'dompurify';
 
-const Search = (props) => {
+const Search = ({setMovies}) => {
 
   const {register, handleSubmit} = useForm({
         mode: 'onSubmit',
@@ -20,73 +19,63 @@ const Search = (props) => {
         shouldUnregister: true
     });
 
-    const [ advanced, setAdvanced ] = useState({
-      "Language": '',
-      "Region": '',
-      "Sort By": '',
-      "Release Year": '',
-    })
+  const [ advanced, setAdvanced ] = useState({
+    "Language": '',
+    "Region": '',
+    "Sort By": '',
+    "Release Year": '',
+  })
+
+  const getData = async (data) => {
+    const sanitizedQuery = DomPurify.sanitize(
+    data.Search.replace(/ /g, "+")
+  );
+    setMovies({
+      type: "Search",
+      data: await UseAxios("search", null, sanitizedQuery),
+    });
+  };
   
-    const axiosCall = async (data) => {
-      const queryReadyInput = DomPurify.sanitize(
-        data.Search.replace(/ /g, "+")
-      );
-      try {
-        const options = {
-          method: "GET",
-          url: `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${queryReadyInput}`,
-        };
-        const asyncResponse = await axios(options);
-        props.setGenre("Search");
-        props.setMovies(
-          asyncResponse.data.results
-        );
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    
-    const handleShow = () => {
-      setAdvanced(
-        {showAdvancedSettings: true}
-      );
-    }
-
-    const handleClose = () => {
-      setAdvanced(
-        {showAdvancedSettings: false}
-      );
-    }
-
-    return (
-      <>
-        <form onSubmit={handleSubmit(axiosCall)}>
-          <InputGroup className="mb-3">
-            <FormControl
-              name="Search"
-              type="text"
-              placeholder="Enter Search Query"
-              aria-label="Enter Search Query"
-              aria-describedby="basic-addon2"
-              ref={register}
-            />
-            <InputGroup.Append>
-              <Button type="submit">
-                  Search
-              </Button>
-              <Button variant="outline-secondary" onClick={()=>handleShow()}>
-                Advanced
-              </Button>
-            </InputGroup.Append>
-          </InputGroup>
-          <AdvancedModal handleClose={handleClose} show={advanced.showAdvancedSettings}/>
-        </form>
-      </>
+  const handleShow = () => {
+    setAdvanced(
+      {showAdvancedSettings: true}
     );
+  }
+
+  const handleClose = () => {
+    setAdvanced(
+      {showAdvancedSettings: false}
+    );
+  }
+
+  return (
+    <>
+      <form onSubmit={handleSubmit(getData)}>
+        <InputGroup className="mb-3">
+          <FormControl
+            name="Search"
+            type="text"
+            placeholder="Enter Search Query"
+            aria-label="Enter Search Query"
+            aria-describedby="basic-addon2"
+            ref={register}
+          />
+          <InputGroup.Append>
+            <Button type="submit">
+                Search
+            </Button>
+            <Button variant="outline-secondary" onClick={()=>handleShow()}>
+              Advanced
+            </Button>
+          </InputGroup.Append>
+        </InputGroup>
+        <AdvancedModal handleClose={handleClose} show={advanced.showAdvancedSettings}/>
+      </form>
+    </>
+  );
 }
 
 Search.propTypes = {
-    setGenre: PropTypes.func,
     setMovies: PropTypes.func
 }
 
