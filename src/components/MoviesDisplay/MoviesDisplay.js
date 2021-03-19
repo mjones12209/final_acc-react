@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { Card, Button } from 'react-bootstrap';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
+
 
 const MoviesDisplay = ({overview, title, picture}) => {
     const [text, showText] = useState(false);
@@ -17,7 +18,7 @@ const MoviesDisplay = ({overview, title, picture}) => {
 
     return (
       <>
-        <Card style={{ width: "18rem" }}>
+        <Card id="cardId" style={{ width: "18rem" }}>
           {picture === null ? (
             <Card.Img src={"https://www.hallaminternet.com/assets/show.jpg"} />
           ) : (

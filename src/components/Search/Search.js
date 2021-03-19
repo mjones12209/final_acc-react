@@ -55,8 +55,8 @@ const Search = ({setMovies}) => {
           <FormControl
             name="Search"
             type="text"
-            placeholder="Enter Search Query"
-            aria-label="Enter Search Query"
+            placeholder="Search"
+            aria-label="Search"
             aria-describedby="basic-addon2"
             ref={register}
           />

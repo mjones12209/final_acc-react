@@ -11,25 +11,19 @@ const Toolbar = ({movies, setMovies}) => {
     return (
       <>
         <Container className={styles["container"]}>
-          <Row className={styles["centeredButtons"]}>
+          <Row className={styles["rowAdjust"]}>
             <Col sm>
-              <NewMovies
-                setMovies={setMovies}
-              />
+              <NewMovies setMovies={setMovies} />
             </Col>
             <Col sm>
-              <Genre
-                setMovies={setMovies}
-              />
+              <Genre setMovies={setMovies} />
             </Col>
             <Col sm>
-              <Search
-                setMovies={setMovies}
-              />
+              <Search setMovies={setMovies} />
             </Col>
           </Row>
         </Container>
-        <Container fluid="md" className={styles["title"]}>
+        <Container fluid="md" className={styles["movieType"]}>
           <Row>
             <Col>
               <h1>

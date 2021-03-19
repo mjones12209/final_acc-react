@@ -10,7 +10,7 @@ function App() {
   return (
     <>
       <Toolbar movies={movies} setMovies={setMovies} />
-      <div className={styles["movieContainer"]}>
+      <div className={styles['movieContainer']}>
         {movies.data && movies.data.data.results.map((movie) => {
           return (
             <MoviesDisplay
