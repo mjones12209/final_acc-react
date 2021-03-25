@@ -1,0 +1,11 @@
+.modal {
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.modal.d-block {
+  overflow: auto;
+}
+
+.react-calendar {
+  width: unset;
+}

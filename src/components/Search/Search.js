@@ -1,56 +1,20 @@
-import React, {useState} from 'react';
-import {useForm} from 'react-hook-form';
-import PropTypes from 'prop-types';
-import {FormControl, InputGroup, Button} from 'react-bootstrap';
-import AdvancedModal from '../AdvancedModal/AdvancedModal';
-import UseAxios from '../useAxios/useAxios';
-import DomPurify from 'dompurify';
+import React, { useState } from "react";
+import PropTypes from "prop-types";
+import { FormControl, InputGroup, Button } from "react-bootstrap";
+import AdvancedModal from "../AdvancedModal/AdvancedModal";
+import DomPurify from "dompurify";
 
-const Search = ({setMovies}) => {
+const Search = ({ setGenre, setAdvanced, setQuery }) => {
+  const [showAdvanced, setShowAdvanced] = useState(false);
 
-  const {register, handleSubmit} = useForm({
-        mode: 'onSubmit',
-        reValidateMode: 'onChange',
-        defaultValues: {},
-        resolver: undefined,
-        context: undefined,
-        criteriaMode: 'firstError',
-        shouldFocusError: true,
-        shouldUnregister: true
-    });
-
-  const [ advanced, setAdvanced ] = useState({
-    "Language": '',
-    "Region": '',
-    "Sort By": '',
-    "Release Year": '',
-  })
-
-  const getData = async (data) => {
-    const sanitizedQuery = DomPurify.sanitize(
-    data.Search.replace(/ /g, "+")
-  );
-    setMovies({
-      type: "Search",
-      data: await UseAxios("search", null, sanitizedQuery),
-    });
-  };
-  
   const handleShow = () => {
-    setAdvanced(
-      {showAdvancedSettings: true}
-    );
-  }
-
-  const handleClose = () => {
-    setAdvanced(
-      {showAdvancedSettings: false}
-    );
-  }
+    setShowAdvanced(!showAdvanced);
+  };
 
   return (
     <>
-      <form onSubmit={handleSubmit(getData)}>
+      <form onSubmit={(e) => e.preventDefault()}>
+        
         <InputGroup className="mb-3">
           <FormControl
             name="Search"
@@ -58,25 +22,29 @@ const Search = ({setMovies}) => {
             placeholder="Search"
             aria-label="Search"
             aria-describedby="basic-addon2"
-            ref={register}
+            onChange={(e) => {
+              setGenre({searchType: "search", genreId: null, genreName: "Search"});
+              setQuery(DomPurify.sanitize(e.target.value).replace(/ /g, "+"));
+            }}
           />
           <InputGroup.Append>
-            <Button type="submit">
-                Search
-            </Button>
-            <Button variant="outline-secondary" onClick={()=>handleShow()}>
+            <Button variant="primary" onClick={() => handleShow()}>
               Advanced
             </Button>
           </InputGroup.Append>
         </InputGroup>
-        <AdvancedModal handleClose={handleClose} show={advanced.showAdvancedSettings}/>
+        <AdvancedModal
+          setAdvanced={setAdvanced}
+          setShowAdvanced={setShowAdvanced}
+          showAdvanced={showAdvanced}
+        />
       </form>
     </>
   );
-}
+};
 
 Search.propTypes = {
-    setMovies: PropTypes.func
-}
+  setMovies: PropTypes.func,
+};
 
 export default Search;

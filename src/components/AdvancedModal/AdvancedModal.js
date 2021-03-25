@@ -1,68 +1,70 @@
 import React from "react";
-import { useForm } from "react-hook-form";
 import PropTypes from "prop-types";
-import { Modal, Button, Form } from "react-bootstrap";
-import styles from "./AdvancedModal.module.css";
+import { Modal, Button, Form, InputGroup, FormControl } from "react-bootstrap";
+import "react-calendar/dist/Calendar.css";
+import "./AdvancedModal.css";
+import moment from 'moment';
+import Calendar from 'react-calendar';
 
-const AdvancedModal = ({ show, handleClose }) => {
+const AdvancedModal = ({setAdvanced, setShowAdvanced, showAdvanced }) => {
 
-  const { register, handleSubmit } = useForm({
-    mode: "onClick",
-    reValidateMode: "onChange",
-    defaultValues: {},
-    resolver: undefined,
-    context: undefined,
-    criteriaMode: "firstError",
-    shouldFocusError: true,
-    shouldUnregister: true,
-  });
-
-  const handleAdvancedSettings = (data) => {
-    console.log(data);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setShowAdvanced(false);
   };
 
-  const showHideClassName = show ? "modal d-block" : "modal d-none";
+  const showHideClassName = showAdvanced ? "modal d-block" : "modal d-none";
+
   return (
     <div className={showHideClassName}>
-      <Modal.Dialog className={styles["modal-container"]}>
+      <Modal.Dialog>
         <Modal.Header>
           <Modal.Title>Advanced Search</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <p>Format:</p>
+          <p>Primary Release Year:</p>
           <Form.Group>
-            <Form.Check
-              name="Images"
-              ref={register}
-              type="checkbox"
-              label="Images"
-            />
-            <Form.Check
-              name="Movies"
-              ref={register}
-              type="checkbox"
-              label="Movies"
-            />
+            <InputGroup>
+              <FormControl
+                placeholder="Primary Release Year"
+                aria-label="Primary Release Year"
+                aria-describedby="basic-addon1"
+                onChange={(e) =>
+                  setAdvanced({
+                    primary_release_year: e.target.value,
+                  })
+                }
+              />
+            </InputGroup>
+            <InputGroup className="my-3">
+              Release Date
+              <br />
+              <Calendar
+                onChange={(e) => {
+                  setAdvanced({
+                    "primary_release_date.gte": moment(e).format("YYYY-MM-DD"),
+                  });
+                }}
+              />
+            </InputGroup>
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>
           <Button
             variant="secondary"
             onClick={() => {
-              handleClose();
+              setShowAdvanced(true);
+              setAdvanced({});
             }}
           >
-            Close
-          </Button>
-          <Button variant="secondary">
             Clear
           </Button>
           <Button
             variant="primary"
             type="submit"
-            onClick={handleSubmit(handleAdvancedSettings)}
+            onClick={(e) => handleSubmit(e)}
           >
-            Save Changes
+            Close
           </Button>
         </Modal.Footer>
       </Modal.Dialog>

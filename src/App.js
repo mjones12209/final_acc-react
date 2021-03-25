@@ -7,6 +7,7 @@ import MoviesDisplay from './components/MoviesDisplay/MoviesDisplay';
 function App() {
   const [movies, setMovies] = useState({type: null, data: null});
 
+
   return (
     <>
       <Toolbar movies={movies} setMovies={setMovies} />
