@@ -30,7 +30,7 @@ const Genre = ({setGenre, dropdowns}) => {
 
 Genre.propTypes = {
   setGenre: PropTypes.func,
-  setMovies: PropTypes.func,
+  dropdowns: PropTypes.object,
 }
 
 export default Genre;

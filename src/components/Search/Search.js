@@ -1,21 +1,21 @@
-import React, { useState } from "react";
+import {useContext} from 'react';
 import PropTypes from "prop-types";
-import { FormControl, InputGroup, Button } from "react-bootstrap";
-import AdvancedModal from "../AdvancedModal/AdvancedModal";
+import { FormControl, Button } from "react-bootstrap";
+import AdvancedModal from "./AdvancedModal/AdvancedModal";
 import DomPurify from "dompurify";
+import { AdvancedMoviesContext } from "../../contexts/AdvancedMoviesContext";
 
-const Search = ({ setGenre, setAdvanced, setQuery }) => {
-  const [showAdvanced, setShowAdvanced] = useState(false);
+const Search = ({ setGenre, setQuery }) => {
 
+  const {showAdvanced, setShowAdvanced} = useContext(AdvancedMoviesContext);
+  
   const handleShow = () => {
     setShowAdvanced(!showAdvanced);
   };
 
   return (
     <>
-      <form onSubmit={(e) => e.preventDefault()}>
-        
-        <InputGroup className="mb-3">
+        <div>
           <FormControl
             name="Search"
             type="text"
@@ -23,28 +23,31 @@ const Search = ({ setGenre, setAdvanced, setQuery }) => {
             aria-label="Search"
             aria-describedby="basic-addon2"
             onChange={(e) => {
-              setGenre({searchType: "search", genreId: null, genreName: "Search"});
+              setGenre({
+                searchType: "search",
+                genreId: null,
+                genreName: "Search",
+              });
               setQuery(DomPurify.sanitize(e.target.value).replace(/ /g, "+"));
             }}
           />
-          <InputGroup.Append>
             <Button variant="primary" onClick={() => handleShow()}>
               Advanced
             </Button>
-          </InputGroup.Append>
-        </InputGroup>
+        </div>
         <AdvancedModal
-          setAdvanced={setAdvanced}
-          setShowAdvanced={setShowAdvanced}
-          showAdvanced={showAdvanced}
+          handleShow={handleShow}
         />
-      </form>
     </>
   );
 };
 
 Search.propTypes = {
-  setMovies: PropTypes.func,
+  setGenre: PropTypes.func,
+  setAdvanced: PropTypes.func,
+  setQuery: PropTypes.func,
+  setShowAdvanced: PropTypes.func,
+  showAdvanced: PropTypes.bool
 };
 
 export default Search;

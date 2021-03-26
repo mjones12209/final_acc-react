@@ -20,7 +20,7 @@ const NewMovies = ({setGenre}) => {
 }
 
 NewMovies.propTypes = {
-  setMovies: PropTypes.func
+  setGenre: PropTypes.func
 }
 
 export default NewMovies;
