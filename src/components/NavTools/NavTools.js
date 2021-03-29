@@ -39,7 +39,6 @@ const NavTools = (props) => {
             advanced
           ),
         });
-        console.log("UseEffect Main")
       };
       axiosCall();
     }

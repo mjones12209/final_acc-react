@@ -17,9 +17,7 @@ export default function useAxios () {
                         url =`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${advanced.searchQuery}`
                         break;
                     default:
-                        // const queryReadyAdvanced = handleAdvanced(advanced);
                         url = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${advanced.searchQuery}${advanced.advancedSearchQueryAppend}`;
-                        console.log(url)
                         break;
                 }
                 break;
