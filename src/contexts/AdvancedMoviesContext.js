@@ -3,8 +3,26 @@ import { createContext, useState } from "react";
 export const AdvancedMoviesContext = createContext();
 
 const AdvancedMoviesProvider = ({ children }) => {
-  const [advanced, setAdvanced] = useState(null);
-  const [showAdvanced, setShowAdvanced] = useState(false);
+  const [advanced, setAdvanced] = useState({
+    beforeIsChecked: true,
+    afterIsChecked: false,
+    advancedSearchType: null,
+    isAdvancedSearch: false,
+    releaseDateYearValue: "",
+    releaseDateType: "primary_release_date.lte",
+    showAdvanced: false,
+    searchQuery: "",
+    searchValue: "",
+    advancedSearchQueryAppend: "",
+    releaseDateYear: ""
+  });
+
+  const [genre, setGenre] = useState({
+    searchType: null,
+    genreId: null,
+    genreName: null,
+  });
+  
   const [movies, setMovies] = useState({ type: null, data: null });
 
   return (
@@ -12,10 +30,10 @@ const AdvancedMoviesProvider = ({ children }) => {
       value={{
         advanced,
         setAdvanced,
-        showAdvanced,
-        setShowAdvanced,
         movies,
-        setMovies
+        setMovies,
+        genre,
+        setGenre
       }}
     >
       {children}

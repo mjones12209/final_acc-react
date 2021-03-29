@@ -1,7 +1,9 @@
 import { Dropdown } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import AdvancedModalControls from "../Search/AdvancedModal/AdvancedModalControls";
 
 const Genre = ({setGenre, dropdowns}) => {
+    const { clearAdvancedState } = AdvancedModalControls();
 
     return (
       <>
@@ -15,7 +17,10 @@ const Genre = ({setGenre, dropdowns}) => {
                     <Dropdown.Item
                       key={genre.id}
                       genreid={genre.id}
-                      onClick={() => setGenre({searchType: "genre", genreId: genre.id, genreName: genre.name})}
+                      onClick={() => {
+                        setGenre({searchType: "genre", genreId: genre.id, genreName: genre.name})
+                        clearAdvancedState();
+                      }}
                     >
                       {genre.name}
                     </Dropdown.Item>

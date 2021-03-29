@@ -1,6 +1,5 @@
 import { useEffect, useState, useContext } from "react";
 import { Navbar, Nav } from "react-bootstrap";
-import UseAxios from "../useAxios/useAxios";
 import styles from "./NavTools.module.css";
 import axios from "axios";
 import NewMovies from "../NewMovies/NewMovies";
@@ -8,16 +7,13 @@ import Genre from "../Genre/Genre";
 import Search from "../Search/Search";
 import { apiKey } from "../../key";
 import { AdvancedMoviesContext } from "../../contexts/AdvancedMoviesContext";
+import UseAxios from '../UseAxios/UseAxios';
 
 const NavTools = (props) => {
-  const {advanced, setMovies} = useContext(AdvancedMoviesContext);
+  const {advanced, setMovies, genre,setGenre} = useContext(AdvancedMoviesContext);
   const [dropdowns, setDropdowns] = useState();
-  const [genre, setGenre] = useState({
-    searchType: null,
-    genreId: null,
-    genreName: null,
-  });
-  const [query, setQuery] = useState(null);
+
+  const {fetchData} = UseAxios();
 
   useEffect(() => {
     const getGenres = async () => {
@@ -28,31 +24,30 @@ const NavTools = (props) => {
       );
     };
     getGenres();
-    console.log("GetGenres useEffect");
   }, []);
+
+  
 
   useEffect(() => {
     if (genre.searchType) {
       const axiosCall = async () => {
         setMovies({
           type: genre.genreName,
-          data: await UseAxios(
+          data: await fetchData(
             genre.searchType,
             genre.genreId,
-            query,
             advanced
           ),
         });
+        console.log("UseEffect Main")
       };
       axiosCall();
-      console.log("MainState useEffect");
     }
   }, [
     genre.genreName,
     genre.genreId,
     genre.searchType,
     setMovies,
-    query,
     advanced,
   ]);
 
@@ -67,7 +62,6 @@ const NavTools = (props) => {
         </Nav>
         <Search
           setGenre={setGenre}
-          setQuery={setQuery}
         />
       </Navbar>
     </>

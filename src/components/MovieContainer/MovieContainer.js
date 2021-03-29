@@ -5,7 +5,9 @@ import styles from './MovieContainer.module.css';
 import {AdvancedMoviesContext} from '../../contexts/AdvancedMoviesContext';
 
 const MovieContainer = () => {
+
     const {movies} = useContext(AdvancedMoviesContext);
+    
     return (
       <>
         {movies.type && <Card className="my-5">

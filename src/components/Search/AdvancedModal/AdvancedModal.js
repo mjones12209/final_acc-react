@@ -3,15 +3,21 @@ import PropTypes from "prop-types";
 import { Modal, Button, Form, InputGroup, FormControl } from "react-bootstrap";
 import "react-calendar/dist/Calendar.css";
 import { AdvancedMoviesContext } from "../../../contexts/AdvancedMoviesContext";
+import styles from "./AdvancedModal.module.css";
 import "./AdvancedModal.css";
-import moment from "moment";
 import Calendar from "react-calendar";
+import AdvancedModalControls from "./AdvancedModalControls";
 
 const AdvancedModal = ({ handleShow }) => {
-  const { advanced, setAdvanced, showAdvanced, setShowAdvanced } = useContext(
-    AdvancedMoviesContext
-  );
-  const showHideClassName = showAdvanced ? "modal d-block" : "modal d-none";
+  const { advanced } = useContext(AdvancedMoviesContext);
+  const {
+    showHideClassName,
+    setAdvancedStateReleaseYear,
+    setAdvancedStateBefore,
+    setAdvancedStateAfter,
+    setAdvancedStateCalendar,
+    clearAdvancedState,
+  } = AdvancedModalControls();
 
   return (
     <div className={showHideClassName}>
@@ -25,38 +31,40 @@ const AdvancedModal = ({ handleShow }) => {
             <InputGroup>
               <FormControl
                 placeholder="Release Year"
+                value={advanced.releaseDateYearValue}
                 aria-label="Release Year"
                 aria-describedby="basic-addon1"
-                onChange={(e) =>
-                  setAdvanced({
-                    primary_release_year: e.target.value,
-                  })
-                }
+                onChange={(e) => {
+                  setAdvancedStateReleaseYear(e.target.value);
+                }}
               />
             </InputGroup>
-            <InputGroup className="my-3">
+            <InputGroup className="my-3" id={styles["checkboxTextParent"]}>
               Release Date:
-              <InputGroup.Text>
+              <InputGroup.Text id={styles["checkboxTextSubParent"]}>
                 Before
                 <InputGroup.Checkbox
                   aria-label="Before"
+                  checked={advanced.beforeIsChecked}
                   onChange={(e) => {
-                    setAdvanced({
-                      ...advanced,
-                    });
+                    setAdvancedStateBefore(e.target.checked);
                   }}
                 />
               </InputGroup.Text>
-              <InputGroup.Text>
+              <InputGroup.Text id={styles["checkboxTextSubParent"]}>
                 After
-                <InputGroup.Checkbox aria-label="After" />
+                <InputGroup.Checkbox
+                  checked={advanced.afterIsChecked}
+                  aria-label="After"
+                  onChange={(e) => {
+                    setAdvancedStateAfter(e.target.checked);
+                  }}
+                />
               </InputGroup.Text>
               <br />
               <Calendar
                 onChange={(e) => {
-                  setAdvanced({
-                    "primary_release_date.gte": moment(e).format("YYYY-MM-DD"),
-                  });
+                  setAdvancedStateCalendar(e);
                 }}
               />
             </InputGroup>
@@ -66,8 +74,7 @@ const AdvancedModal = ({ handleShow }) => {
           <Button
             variant="secondary"
             onClick={() => {
-              setShowAdvanced(true);
-              setAdvanced({});
+              clearAdvancedState();
             }}
           >
             Clear
