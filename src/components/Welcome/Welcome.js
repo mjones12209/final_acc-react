@@ -9,7 +9,7 @@ const Welcome = () => {
           <Card.Body>
             <Card.Title>Movie Browser Application</Card.Title>
             <Card.Text>
-             This is a final project recreated in ReactJS from VanillaJS by Michael Jones
+             This is a final project recreated in React from VanillaJS by Michael Jones
             </Card.Text>
             <Button variant="primary">Get Started</Button>
           </Card.Body>
