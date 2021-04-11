@@ -25,6 +25,10 @@ const AdvancedMoviesProvider = ({ children }) => {
   
   const [movies, setMovies] = useState({ type: null, data: null });
 
+  const [apiKey, setApiKey] = useState(null);
+
+  const [hasApiKey, setHasApiKey] = useState(false);
+
   return (
     <AdvancedMoviesContext.Provider
       value={{
@@ -33,7 +37,11 @@ const AdvancedMoviesProvider = ({ children }) => {
         movies,
         setMovies,
         genre,
-        setGenre
+        setGenre,
+        hasApiKey,
+        setHasApiKey,
+        apiKey,
+        setApiKey
       }}
     >
       {children}
