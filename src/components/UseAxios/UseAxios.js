@@ -1,8 +1,14 @@
+import {useContext} from 'react';
 import moment from 'moment';
-import {apiKey} from '../../key';
+// import {apiKey} from '../../key';
 import axios from 'axios';
+import { AdvancedMoviesContext } from "../../contexts/AdvancedMoviesContext";
+
 
 export default function useAxios () {
+    const { apiKey } = useContext(
+      AdvancedMoviesContext
+    );
     
     const fetchData = async (type, genreId, advanced) => {
         try {

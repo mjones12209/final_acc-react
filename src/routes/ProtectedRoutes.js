@@ -3,7 +3,7 @@ import {useContext} from 'react';
 import {AdvancedMoviesContext} from '../contexts/AdvancedMoviesContext';
 
 const ProtectedRoutes = ({children}) => {
-    const {hasApiKey} = useContext(AdvancedMoviesContext);
+    const hasApiKey = useContext(AdvancedMoviesContext);
     return hasApiKey ? (
         <Route>
             {children}

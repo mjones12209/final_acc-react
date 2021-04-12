@@ -2,7 +2,7 @@ import { Dropdown } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import AdvancedModalControls from "../Search/AdvancedModal/AdvancedModalControls";
 
-const Genre = ({setGenre, dropdowns}) => {
+const Genre = ({setGenre, dropdowns, handleClickRoute, history}) => {
     const { clearAdvancedState } = AdvancedModalControls();
 
     return (
@@ -20,6 +20,7 @@ const Genre = ({setGenre, dropdowns}) => {
                       onClick={() => {
                         setGenre({searchType: "genre", genreId: genre.id, genreName: genre.name})
                         clearAdvancedState();
+                        handleClickRoute("/app/genretop20")
                       }}
                     >
                       {genre.name}

@@ -5,15 +5,26 @@ import axios from "axios";
 import NewMovies from "../NewMovies/NewMovies";
 import Genre from "../Genre/Genre";
 import Search from "../Search/Search";
-import { apiKey } from "../../key";
 import { AdvancedMoviesContext } from "../../contexts/AdvancedMoviesContext";
-import UseAxios from '../UseAxios/UseAxios';
+import UseAxios from "../UseAxios/UseAxios";
+import { Switch, Route } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import MovieContainer from "../MovieContainer/MovieContainer";
+
 
 const NavTools = (props) => {
-  const {advanced, setMovies, genre,setGenre} = useContext(AdvancedMoviesContext);
+  const { apiKey, advanced, setMovies, genre, setGenre } = useContext(
+    AdvancedMoviesContext
+  );
   const [dropdowns, setDropdowns] = useState();
 
-  const {fetchData} = UseAxios();
+  const { fetchData } = UseAxios();
+
+  const history = useHistory();
+
+  const handleClickRoute = (path) => {
+    history.push(path);
+  };
 
   useEffect(() => {
     const getGenres = async () => {
@@ -26,43 +37,52 @@ const NavTools = (props) => {
     getGenres();
   }, []);
 
-  
-
   useEffect(() => {
     if (genre.searchType) {
       const axiosCall = async () => {
         setMovies({
           type: genre.genreName,
-          data: await fetchData(
-            genre.searchType,
-            genre.genreId,
-            advanced
-          ),
+          data: await fetchData(genre.searchType, genre.genreId, advanced),
         });
       };
       axiosCall();
     }
-  }, [
-    genre.genreName,
-    genre.genreId,
-    genre.searchType,
-    setMovies,
-    advanced,
-  ]);
+  }, [genre.genreName, genre.genreId, genre.searchType, setMovies, advanced]);
 
   return (
     <>
       <Navbar id={styles["navbar"]} bg="dark" variant="dark">
-        <Navbar.Brand href="#home">Movie Browser</Navbar.Brand>
+        <Navbar.Brand>Movie Browser</Navbar.Brand>
         <Nav className="mr-auto">
-          {/* <Button>New Movies</Button> */}
-          <NewMovies setGenre={setGenre} />
-          <Genre setGenre={setGenre} dropdowns={dropdowns} />
+          <NewMovies
+            setGenre={setGenre}
+            handleClickRoute={handleClickRoute}
+            history={history}
+          />
+          <Genre
+            setGenre={setGenre}
+            dropdowns={dropdowns}
+            handleClickRoute={handleClickRoute}
+            history={history}
+          />
         </Nav>
         <Search
+          handleClickRoute={handleClickRoute}
+          history={history}
           setGenre={setGenre}
         />
       </Navbar>
+      <Switch>
+        <Route exact path="/app/new-movies">
+          <MovieContainer />
+        </Route>
+        <Route exact path="/app/genretop20">
+          <MovieContainer />
+        </Route>
+        <Route exact path="/app/search">
+          <MovieContainer />
+        </Route>
+      </Switch>
     </>
   );
 };

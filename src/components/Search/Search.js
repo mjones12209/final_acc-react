@@ -5,10 +5,11 @@ import { AdvancedMoviesContext } from "../../contexts/AdvancedMoviesContext";
 import AdvancedModal from "./AdvancedModal/AdvancedModal";
 import SearchControls from './SearchControls';
 
-const Search = () => {
+const Search = ({handleClickRoute, history}) => {
 
   const {handleShow, setSearchState} = SearchControls();
   const {advanced} = useContext(AdvancedMoviesContext);
+
 
   return (
     <>
@@ -22,6 +23,7 @@ const Search = () => {
           aria-describedby="basic-addon2"
           onChange={(e) => {
             setSearchState(e.target.value);
+            handleClickRoute("/app/search");
           }}
         />
         <Button variant="primary" onClick={() => handleShow()}>

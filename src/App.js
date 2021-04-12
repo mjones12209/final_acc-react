@@ -1,10 +1,13 @@
 import AppRouter from './routes/AppRouter';
+import AdvancedMoviesProvider from './contexts/AdvancedMoviesContext';
 
 function App() {
   
   return (
     <>
-      <AppRouter />
+      <AdvancedMoviesProvider>
+        <AppRouter />
+      </AdvancedMoviesProvider>
     </>
   );
 }
