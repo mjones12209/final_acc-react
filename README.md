@@ -21,4 +21,4 @@
     npm install & npm start 
 ```
 
-5. Enter your API key at the Welcome screen and click get started to begin using the App!
+Then,  enter your API key at the Welcome screen and click get started to begin using the App!
